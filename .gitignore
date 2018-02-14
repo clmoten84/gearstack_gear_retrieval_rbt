@@ -1,0 +1,31 @@
+# Log files #
+#############
+*.log
+
+# App Config files and directories #
+####################################
+/config/
+
+# IDE directories and files #
+#############################
+*.iml
+/.idea/
+
+# Project and Settings files #
+##############################
+*.project
+*.settings
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Compiled python files #
+#########################
+*.pyc
