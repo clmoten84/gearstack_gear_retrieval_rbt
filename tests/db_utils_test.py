@@ -10,15 +10,29 @@
 
 import unittest
 import logUtils.log_utils as log_utils
+import configUtils.config_utils as config_utils
+from dbUtils.db_utils import DBUtils
 
 class DBUtilsTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        pass
+        db_configs = config_utils.fetch_config(env="local")['db_config']
+        cls.db_utils = DBUtils(db_configs)
 
     @classmethod
     def tearDownClass(cls):
-        pass
+        cls.db_utils.close_db_connections()
+        del cls.db_utils
+
+    """ Tests that a connection could be made to application database. 
+        Just runs a query to get Postgres version. """
+    def test_app_db_conn(self):
+        # Create a cursor from DB connection
+        with self.db_utils.app_db_conn.cursor() as db_cursor:
+            db_cursor.execute('SELECT version()')
+            db_version = db_cursor.fetchone()
+            self.assertIsNotNone(db_version)
+            print db_version
 
 
 """ MAIN - execute tests """
