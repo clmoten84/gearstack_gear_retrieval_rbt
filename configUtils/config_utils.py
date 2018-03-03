@@ -25,19 +25,32 @@ def fetch_config(env='local'):
         return {
             'db_config': {
                 'app_db_props': {
-                    'db_host': cfg['local']['app_db_props']['host'],
-                    'db_name': cfg['local']['app_db_props']['db'],
-                    'db_user': cfg['local']['app_db_props']['user'],
-                    'db_pass': cfg['local']['app_db_props']['pass'],
-                    'port': cfg['local']['app_db_props']['port']
+                    'db_host': cfg[env]['app_db_props']['host'],
+                    'db_name': cfg[env]['app_db_props']['db'],
+                    'db_user': cfg[env]['app_db_props']['user'],
+                    'db_pass': cfg[env]['app_db_props']['pass'],
+                    'port': cfg[env]['app_db_props']['port']
                 },
-                'log_db_props': {
-                    'db_host': cfg['local']['log_db_props']['host'],
-                    'db_name': cfg['local']['log_db_props']['db'],
-                    'db_user': cfg['local']['log_db_props']['user'],
-                    'db_pass': cfg['local']['log_db_props']['pass'],
-                    'port': cfg['local']['log_db_props']['port']
+                'bot_log_db_props': {
+                    'db_host': cfg[env]['bot_log_db_props']['host'],
+                    'db_name': cfg[env]['bot_log_db_props']['db'],
+                    'db_user': cfg[env]['bot_log_db_props']['user'],
+                    'db_pass': cfg[env]['bot_log_db_props']['pass'],
+                    'port': cfg[env]['bot_log_db_props']['port']
+                },
+                'bot_db_props': {
+                    'db_host': cfg[env]['bot_db_props']['host'],
+                    'db_name': cfg[env]['bot_db_props']['db'],
+                    'db_user': cfg[env]['bot_db_props']['user'],
+                    'db_pass': cfg[env]['bot_db_props']['pass'],
+                    'port': cfg[env]['bot_db_props']['port']
                 }
+            },
+            'amazon_config': {
+                'api_access_key': cfg[env]['amazon_props']['access_key'],
+                'api_secret_key': cfg[env]['amazon_props']['secret_key'],
+                'associate_tag': cfg[env]['amazon_props']['associate_tag'],
+                'cat_starter_node': cfg[env]['amazon_props']['cat_starter_node']
             }
         }
     else:

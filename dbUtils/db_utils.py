@@ -9,34 +9,30 @@
 #
 # ------------------------------------------------------------------------
 
-import psycopg2
+import psycopg2 as psycopg2
 import logging
 import logUtils.log_utils as log_utils
+from models.categories_retrieved import CategoryRetrieved
 
-class DBUtils:
-    def __init__(self, db_configs):
-        # Create logger to use for this module
-        self.logger = logging.getLogger('gearstack_rbt.{0}'.format(DBUtils.__name__))
+# Define logger at module level
+logger = logging.getLogger('gearstack_rbt.{0}'.format(__name__))
 
-        # Open connection to application database
-        try:
-            self.app_db_conn = self._open_db_connection(db_configs['app_db_props'])
-        except psycopg2.DatabaseError as db_err:
-            self.logger.exception('An error occurred during database connection attempt!')
-            log_utils.close_logger(self.logger)
-            raise db_err
-
-    """ Opens a connection to a database using argument db configuration """
-    def _open_db_connection(self, db_config):
-        conn = psycopg2.connect(host=db_config['db_host'], database=db_config['db_name'],
-                                 user=db_config['db_user'], password=db_config['db_pass'],
-                                 port=db_config['port'])
-        self.logger.info('Connection opened to database: {0}'.format(db_config['db_name']))
+""" Opens a connection to a database using argument db configuration. """
+def open_db_connection(db_configs):
+    try:
+        conn = psycopg2.connect(host=db_configs['db_host'],
+                                database=db_configs['db_name'],
+                                user=db_configs['db_user'],
+                                password=db_configs['db_pass'],
+                                port=db_configs['port'])
+        logger.info('Connection established to database: {0}'.format(db_configs['db_name']))
         return conn
+    except psycopg2.DatabaseError as db_err:
+        logger.exception('An error occurred during database connection attempt!')
+        log_utils.close_logger(logger)
+        raise db_err
 
-    """ Closes all open database connections """
-    def close_db_connections(self):
-        # Close application database connection
-        if self.app_db_conn:
-            self.app_db_conn.close()
-            self.logger.info('ALL database connections closed!')
+def close_db_connection(conn):
+    if conn:
+        conn.close()
+        logger.info('Connection to database closed!')

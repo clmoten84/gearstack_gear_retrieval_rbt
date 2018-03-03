@@ -11,32 +11,36 @@
 import unittest
 import logUtils.log_utils as log_utils
 import configUtils.config_utils as config_utils
-from dbUtils.db_utils import DBUtils
+import dbUtils.db_utils as db_utils
 
 class DBUtilsTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        db_configs = config_utils.fetch_config(env="local")['db_config']
-        cls.db_utils = DBUtils(db_configs)
+        cls.db_configs = config_utils.fetch_config(env="local")['db_config']
 
     @classmethod
     def tearDownClass(cls):
-        cls.db_utils.close_db_connections()
-        del cls.db_utils
+        del cls.db_configs
 
-    """ Tests that a connection could be made to application database. 
-        Just runs a query to get Postgres version. """
-    def test_app_db_conn(self):
-        # Create a cursor from DB connection
-        with self.db_utils.app_db_conn.cursor() as db_cursor:
-            db_cursor.execute('SELECT version()')
-            db_version = db_cursor.fetchone()
+    """ Tests open_connection static function of db_utils. """
+    def test_open_connection(self):
+        # Test open connection function
+        db_version = None
+        bot_db_props = self.db_configs['bot_db_props']
+        db_conn = db_utils.open_db_connection(db_configs=bot_db_props)
+        with db_conn.cursor() as cursor:
+            cursor.execute('SELECT version()')
+            db_version = cursor.fetchone()
             self.assertIsNotNone(db_version)
             print db_version
+
+        # Close database connection
+        db_utils.close_db_connection(db_conn)
 
 
 """ MAIN - execute tests """
 if __name__ == '__main__':
+    root_logger = None
     try:
         # Initialize root logger here for logging to work during tests
         root_logger = log_utils.init_root_logger(log_level="DEBUG")

@@ -12,6 +12,8 @@ import unittest
 import logUtils.log_utils as log_utils
 from config_utils_test import ConfigUtilsTest
 from db_utils_test import DBUtilsTest
+from category_retriever_test import CategoryRetrieverTest
+from category_retriever_dao_test import CategoryRetrieverDAOTest
 
 if __name__ == '__main__':
     try:
@@ -19,7 +21,7 @@ if __name__ == '__main__':
         root_logger = log_utils.init_root_logger(log_level="DEBUG")
 
         # Define list of test case classes to run
-        tests = [ConfigUtilsTest, DBUtilsTest]
+        tests = [ConfigUtilsTest, DBUtilsTest, CategoryRetrieverTest, CategoryRetrieverDAOTest]
         suites_list = []
 
         # Initialize test loader

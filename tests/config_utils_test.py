@@ -22,17 +22,28 @@ class ConfigUtilsTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """ Fetch configuration properties for local environment """
-    def test_fetch_config(self):
-        # Retrieve config props for local environment
-        local_props = config.fetch_config(env='local')
+    """ Fetch database config for local environment """
+    def test_fetch_db_config(self):
+        # Retrieve config props
+        db_config = config.fetch_config(env='local')['db_config']
 
-        # Assertions
-        self.assertEquals(local_props['db_config']['app_db_props']['db_host'], 'localhost')
-        self.assertEquals(local_props['db_config']['app_db_props']['db_name'], 'gearstack')
-        self.assertEquals(local_props['db_config']['app_db_props']['db_user'], 'gearstack_app')
-        self.assertEquals(local_props['db_config']['app_db_props']['db_pass'], 'P@$$w)rd')
-        self.assertEquals(local_props['db_config']['app_db_props']['port'], 5432)
+        # Assert an application database prop
+        self.assertEquals(db_config['app_db_props']['db_name'], 'gearstack')
+
+        # Assert a log database prop
+        self.assertEquals(db_config['bot_log_db_props']['db_name'], 'gearstack_bot_logs')
+
+        # Assert a bot database prop
+        self.assertEquals(db_config['bot_db_props']['db_name'], 'gearstack_bot')
+
+    """ Fetch Amazon config for local environment """
+    def test_fetch_amazon_config(self):
+        # Retrieve config props
+        amazon_config = config.fetch_config(env='local')['amazon_config']
+
+        # Assert Amazon prop
+        self.assertEquals(amazon_config['associate_tag'], 'gearstack-20')
+        self.assertEquals(amazon_config['cat_starter_node'], 11965861)
 
     """ Fetch configuration properties for bogus environment """
     def test_fetch_config_fail(self):
