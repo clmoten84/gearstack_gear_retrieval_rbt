@@ -25,7 +25,7 @@ class ConfigUtilsTest(unittest.TestCase):
     """ Fetch database config for local environment """
     def test_fetch_db_config(self):
         # Retrieve config props
-        db_config = config.fetch_config(env='local')['db_config']
+        db_config = config.fetch_bot_config(env='local')['db_config']
 
         # Assert an application database prop
         self.assertEquals(db_config['app_db_props']['db_name'], 'gearstack')
@@ -39,7 +39,7 @@ class ConfigUtilsTest(unittest.TestCase):
     """ Fetch Amazon config for local environment """
     def test_fetch_amazon_config(self):
         # Retrieve config props
-        amazon_config = config.fetch_config(env='local')['amazon_config']
+        amazon_config = config.fetch_bot_config(env='local')['amazon_config']
 
         # Assert Amazon prop
         self.assertEquals(amazon_config['associate_tag'], 'gearstack-20')
@@ -50,7 +50,14 @@ class ConfigUtilsTest(unittest.TestCase):
         # Attempt to retrieve config props from bogus environment
         # Use assertRaises as context manager here to avoid failure due to exception
         with self.assertRaises(InvalidEnvException):
-            config.fetch_config(env='bogus')
+            config.fetch_bot_config(env='bogus')
+
+    """ Tests fetch_cat_nodes() function of config_utils module """
+    def test_fetch_cat_nodes(self):
+        # Attempt to retrieve cat_nodes for a category
+        nodes = config.fetch_cat_nodes('guitars')
+        self.assertIsNotNone(nodes)
+        self.assertTrue(len(nodes) == 4)
 
 
 """ MAIN - execute tests"""

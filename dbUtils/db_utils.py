@@ -12,10 +12,10 @@
 import psycopg2 as psycopg2
 import logging
 import logUtils.log_utils as log_utils
-from models.categories_retrieved import CategoryRetrieved
+from models.gear_type import GearType
 
 # Define logger at module level
-logger = logging.getLogger('gearstack_rbt.{0}'.format(__name__))
+logger = logging.getLogger('gearstack_rbt.db_utils')
 
 """ Opens a connection to a database using argument db configuration. """
 def open_db_connection(db_configs):
