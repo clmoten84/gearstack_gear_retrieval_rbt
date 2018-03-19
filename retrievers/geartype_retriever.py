@@ -31,7 +31,7 @@ class GearTypeRetriever:
         self.amazon = AmazonAPI(aws_key=amazon_config['api_access_key'],
                                 aws_secret=amazon_config['api_secret_key'],
                                 aws_associate_tag=amazon_config['associate_tag'])
-        self.cats_to_ignore = config_utils.fetch_cat_nodes('ignore_cats')
+        self.cats_to_ignore = config_utils.fetch_data_config('ignore_cats')
 
 
     """ Uses Amazon PAAPI to perform a node lookup. """
@@ -67,7 +67,7 @@ class GearTypeRetriever:
 
     """ Performs node lookup for each node in arg nodes. Then saves
         node and its ancestors to the database. Node_ids comes from
-        the list of node_ids in cat_data.yml config file. Function also
+        the list of node_ids in data.yml config file. Function also
         saves GearType instances to gear_type table in gearstack app
         database if they don't already exist in gear_type_retrieved
         table in bot_database. Bot database tables exist so that app

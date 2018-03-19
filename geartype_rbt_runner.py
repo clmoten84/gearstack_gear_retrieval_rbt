@@ -55,14 +55,16 @@ def main(argv):
         sys.exit(2)
 
     # Create logger and log options specified
-    logger = log_utils.init_root_logger(log_level)
+    logger = log_utils.init_root_logger(logger_name="gearstack_rbt",
+                                        log_path='../log/geartype_rbt.log',
+                                        log_level=log_level)
     logger.info('Gearstack Gear Type Bot')
     logger.info('Environment: {0}'.format(env.upper()))
     logger.info('Log Level: {0}'.format(log_level.upper()))
 
     # Fetch configuration data for specified environment
     bot_configs = config_utils.fetch_bot_config(env)
-    types = config_utils.fetch_cat_keys()
+    types = config_utils.fetch_data_config('cat_data_keys')
 
     # Instantiate retriever object
     type_retriever = GearTypeRetriever(amazon_config=bot_configs['amazon_config'],
@@ -72,7 +74,7 @@ def main(argv):
     # Iterate through types list and persist
     try:
         for type in types:
-            nodes_for_type = config_utils.fetch_cat_nodes(cat_name=type)
+            nodes_for_type = config_utils.fetch_data_config(config_name=type)
             type_retriever.save_geartypes(node_ids=nodes_for_type)
         logger.info('Finished persisting gear types!')
     except Exception:

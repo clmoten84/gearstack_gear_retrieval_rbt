@@ -12,10 +12,10 @@ import logging
 import os
 
 """ Initializes logger to be used as root logger for application. """
-def init_root_logger(log_level="DEBUG"):
-    logger = logging.getLogger("gearstack_rbt")
+def init_root_logger(logger_name, log_path, log_level="DEBUG"):
+    logger = logging.getLogger(logger_name)
     logger.setLevel(_set_log_level(log_level))
-    file_handler = logging.FileHandler(os.path.join(os.path.dirname(__file__), '../log/gear_retriever.log'),
+    file_handler = logging.FileHandler(os.path.join(os.path.dirname(__file__), log_path),
                                        mode='w')
     file_handler.setLevel(_set_log_level(log_level))
     formatter = logging.Formatter('%(asctime)s - [%(name)s - %(module)s : %(funcName)s] - %(levelname)s - %(message)s')

@@ -58,7 +58,9 @@ if __name__ == '__main__':
     root_logger = None
     try:
         # Initialize root logger here for logging to work during tests
-        root_logger = log_utils.init_root_logger(log_level="DEBUG")
+        root_logger = log_utils.init_root_logger(logger_name="gearstack_rbt",
+                                                 log_path='../log/geartype_rbt.log',
+                                                 log_level="DEBUG")
 
         # Define and execute test suite
         suite = unittest.TestLoader().loadTestsFromTestCase(GearTypeDAOTest)

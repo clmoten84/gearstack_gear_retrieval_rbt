@@ -40,7 +40,7 @@ class GearTypeRetrieverTest(unittest.TestCase):
     """ Tests save_geartypes() function of GearTypeRetriever class """
     def test_save_geartypes(self):
         # Grab a list of node_ids from config file
-        guitar_nodes = config_utils.fetch_cat_nodes('guitars')
+        guitar_nodes = config_utils.fetch_data_config('guitars')
         print ('Fetching the following nodes: {0}'.format(guitar_nodes))
 
         # Execute function of test
@@ -52,7 +52,9 @@ if __name__ == '__main__':
     root_logger = None
     try:
         # Initialize root logger so logging works inside CategoryRetriever class
-        root_logger = log_utils.init_root_logger(log_level='DEBUG')
+        root_logger = log_utils.init_root_logger(logger_name="gearstack_rbt",
+                                                 log_path='../log/geartype_rbt.log',
+                                                 log_level="DEBUG")
 
         # Execute unit tests
         suite = unittest.TestLoader().loadTestsFromTestCase(GearTypeRetrieverTest)

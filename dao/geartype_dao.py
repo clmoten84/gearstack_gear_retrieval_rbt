@@ -82,9 +82,12 @@ class GearTypeDAO:
                                      gear_type.name,
                                      gear_type.parent_node_id,
                                      gear_type.is_leaf_node))
-                ret_id = cursor.fetchone()[0]
-                self.db_conn.commit()
-            return ret_id
+                rec = cursor.fetchone()
+                if rec:
+                    self.db_conn.commit()
+                    return rec[0]
+                else:
+                    return None
         except (db_utils.psycopg2.DatabaseError, Exception) as err:
             self.logger.exception('An error occurred during insert operation on gear_type table!')
             log_utils.close_logger(self.logger)

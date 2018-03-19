@@ -55,7 +55,7 @@ class ConfigUtilsTest(unittest.TestCase):
     """ Tests fetch_cat_nodes() function of config_utils module """
     def test_fetch_cat_nodes(self):
         # Attempt to retrieve cat_nodes for a category
-        nodes = config.fetch_cat_nodes('guitars')
+        nodes = config.fetch_data_config('guitars')
         self.assertIsNotNone(nodes)
         self.assertTrue(len(nodes) == 4)
 

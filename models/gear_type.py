@@ -22,5 +22,5 @@ class GearType:
                "Leaf Node: {3}".format(self.amazon_node_id,
                                        self.name,
                                        self.parent_node_id,
-                                       self.isleaf_node)
+                                       self.is_leaf_node)
 

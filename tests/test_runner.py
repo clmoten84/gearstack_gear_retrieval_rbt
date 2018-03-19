@@ -18,8 +18,14 @@ from geartype_dao_test import GearTypeDAOTest
 
 if __name__ == '__main__':
     try:
-        # Initialize root logger so that the logging works during tests
-        root_logger = log_utils.init_root_logger(log_level="DEBUG")
+        # Initialize both loggers so that the logging works during tests
+        geartype_logger = log_utils.init_root_logger(logger_name="gearstack_rbt",
+                                                 log_path="../log/geartype_rbt.log",
+                                                 log_level="DEBUG")
+
+        gear_logger = log_utils.init_root_logger(logger_name="gear_rbt_logger",
+                                                 log_path="../log/gear_rbt.log",
+                                                 log_level="DEBUG")
 
         # Define list of test case classes to run
         tests = [ConfigUtilsTest, DBUtilsTest, GearTypeRetrieverTest,
@@ -37,6 +43,8 @@ if __name__ == '__main__':
         big_suite = unittest.TestSuite(suites_list)
         unittest.TextTestRunner(verbosity=2).run(big_suite)
     finally:
-        # Close root logger
-        if root_logger:
-            log_utils.close_logger(root_logger)
+        if geartype_logger:
+            log_utils.close_logger(geartype_logger)
+
+        if gear_logger:
+            log_utils.close_logger(gear_logger)
