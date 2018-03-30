@@ -41,7 +41,7 @@ class GearRetriever:
         while max_price <= price_limit:
             # Prevent API request throttling
             try:
-                time.sleep(2.0)
+                time.sleep(5.0)
                 products = self.amazon_search(search_idx='MusicalInstruments',
                                               browse_node=browse_node_id,
                                               sort='-price',
@@ -104,7 +104,7 @@ class GearRetriever:
     """ Persist argument item in item_list to application database. """
     def save_gear(self, item_list, browse_node):
         for item in item_list:
-            name = item.title
+            name = self.clean_html(item.title)
             thumb_url = item.small_image_url
             manufacturer = item.brand
             type_id = browse_node
@@ -129,13 +129,15 @@ class GearRetriever:
                         type_id=type_id,
                         features=features)
 
-            ret_id = self.gear_dao.save_gear(gear)
-            if ret_id is not None:
-                # Log success
-                self.logger.info("Saved gear {0} with id {1}".format(gear.name, ret_id))
+            # Only save gear instance if it does not already exist in DB
+            if self.gear_dao.fetch_gear_by_name(gear.name) is None:
+                ret_id = self.gear_dao.save_gear(gear)
+                if ret_id is not None:
+                    # Log success
+                    self.logger.info("Successfully saved gear with id {0}".format(ret_id))
 
     """ Cleans the argument string of all HTML tags """
     def clean_html(self, html_string):
         cleanr = re.compile('<.*?>')
         cleantext = re.sub(cleanr, '', html_string)
-        return str(cleantext)
+        return cleantext.encode('ascii', 'ignore')
